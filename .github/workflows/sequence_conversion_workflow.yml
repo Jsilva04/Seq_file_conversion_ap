@@ -26,5 +26,5 @@ jobs:
       run: pip install argparse
 
     - name: Run Conversion Script
-      run: python Converter_ap_seq_file.py -i Pal_algirus.fasta -o Pal_algitus.nexus
+      run: python Converter_ap_seq_file.py -i Pal_algirus.fasta -o Pal_algirus.nexus
 
