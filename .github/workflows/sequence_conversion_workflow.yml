@@ -1,0 +1,30 @@
+name: Sequence Conversion Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  convert_sequence:
+    name: Convert Sequence Data
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: pip install argparse
+
+    - name: Run Conversion Script
+      run: python Converter_ap_seq_file.py -i Pal_algirus.fasta -o Pal_algitus.nexus
+
