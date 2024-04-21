@@ -140,48 +140,45 @@ class Sequence():
         return len(self.data_dict.get(keys[0]))
 
     def export_data(self):
-        keys = self.data_dict.keys()
-        match self.output_type:
-            case "fasta":
-                file_string = ""
-                for key in keys:
-                    species_name = ">" + key
-                    dna_sequence = self.data_dict.get(key)
-                    i = 70
-                    while i < len(dna_sequence):
-                        dna_sequence = dna_sequence[:i] + "\n" + dna_sequence[i:]
-                        i += 71
-                    file_string += species_name + "\n" + dna_sequence + "\n\n"
-                with open(self.output_path, "w") as output_file:
-                    output_file.write(file_string)
+    keys = self.data_dict.keys()
+    match self.output_type:
+        case "fasta":
+            max_sequence_length = max(len(seq) for seq in self.data_dict.values())
+            file_string = ""
+            for key in keys:
+                species_name = ">" + key
+                dna_sequence = self.data_dict.get(key)
+                padded_sequence = dna_sequence.ljust(max_sequence_length, '-')
+                file_string += species_name + "\n" + padded_sequence + "\n\n"
+            with open(self.output_path, "w") as output_file:
+                output_file.write(file_string)
 
-            case "nexus":
-                ntax = len(keys)
-                if len(keys) != 0:
-                    print('-----------------------')
-                    nchar = self.get_sequence_lenght()
-                file_string = f"#NEXUS\n\nBEGIN DATA;\nDIMENSIONS NTAX={ntax} NCHAR={nchar};\nFORMAT DATATYPE=DNA MISSING=N GAP=-;\nMATRIX\n\n"
-                for key in keys:
-                    species_name = key
-                    dna_sequence = self.data_dict.get(key)
-                    file_string += species_name + "     " + dna_sequence + "\n"
-                file_string += ";\n\nEND;\n"
-                with open(self.output_path, "w") as output_file:
-                    output_file.write(file_string)
+        case "nexus":
+            ntax = len(keys)
+            max_sequence_length = max(len(seq) for seq in self.data_dict.values())
+            file_string = f"#NEXUS\n\nBEGIN DATA;\nDIMENSIONS NTAX={ntax} NCHAR={max_sequence_length};\nFORMAT DATATYPE=DNA MISSING=N GAP=-;\nMATRIX\n\n"
+            for key in keys:
+                species_name = key
+                dna_sequence = self.data_dict.get(key)
+                padded_sequence = dna_sequence.ljust(max_sequence_length, '-')
+                file_string += species_name + "     " + padded_sequence + "\n"
+            file_string += ";\n\nEND;\n"
+            with open(self.output_path, "w") as output_file:
+                output_file.write(file_string)
 
-            case "phylip":
-                ntax = len(keys)
-                if len(keys) != 0:
-                    nchar = self.get_sequence_lenght()
-                file_string = f"{ntax} {nchar}\n"
-                for key in keys:
-                    species_name = key
-                    dna_sequence = self.data_dict.get(key)
-                    file_string += species_name + "   " + dna_sequence + "\n"
-                with open(self.output_path, "w") as output_file:
-                    output_file.write(file_string)
+        case "phylip":
+            ntax = len(keys)
+            max_sequence_length = max(len(seq) for seq in self.data_dict.values())
+            file_string = f"{ntax} {max_sequence_length}\n"
+            for key in keys:
+                species_name = key
+                dna_sequence = self.data_dict.get(key)
+                padded_sequence = dna_sequence.ljust(max_sequence_length, '-')
+                file_string += species_name + "   " + padded_sequence + "\n"
+            with open(self.output_path, "w") as output_file:
+                output_file.write(file_string)
 
-        print(f'Data successfully converted and written to: "{self.output_path}"')
+    print(f'Data successfully converted and written to: "{self.output_path}"')
 
 
 parser = argparse.ArgumentParser()
