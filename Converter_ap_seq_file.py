@@ -127,9 +127,9 @@ class Sequence():
                     dna_sequence = segmented_line[len(segmented_line) - 1]
                     if sequence_length is None:
                         sequence_length = len(dna_sequence)
-                   # else:
-                    #    if (sequence_length != len(dna_sequence)):
-                     #       sys.exit("Error: All DNA sequences must be the same length!")
+                        else:
+                           if (sequence_length != len(dna_sequence)):
+                            sys.exit("Error: All DNA sequences must be the same length!")
                     self.data_dict.update({species_name: dna_sequence})
                     line_index += 1
 
