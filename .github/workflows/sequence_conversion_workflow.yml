@@ -23,7 +23,7 @@ jobs:
         python-version: '3.x'
 
     - name: Install dependencies
-      run: pip install argparse
+      run: pip install biopython
 
     - name: Run Conversion Script Fasta to Nexus
       run: python Converter_ap_BioP.py data/RAG1_aligned.fasta data/RAG1_aligned.nexus
