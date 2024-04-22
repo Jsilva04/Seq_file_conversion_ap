@@ -25,6 +25,25 @@ jobs:
     - name: Install dependencies
       run: pip install argparse
 
-    - name: Run Conversion Script
-      run: python Converter_ap_seq_file.py -i Pal_algirus.fasta -o Pal_algirus.nexus
+    - name: Run Conversion Script Fasta to Nexus
+      run: python Converter_ap_seq_file.py data/RAG1_aligned.fasta data/RAG1_aligned.nexus
+      
+    - name: Run Conversion Fasta to Phylip
+      run: python Converter_ap_seq_file.py data/RAG1_aligned.fasta data/RAG1_aligned.phy
+      
+    - name: Run Conversion Script Nexus to Fasta
+      run: python Converter_ap_seq_file.py data/RAG1_aligned.nexus data/RAG1_aligned.fasta
+
+    - name: Run Conversion Script Nexus to Phylip
+      run: python Converter_ap_seq_file.py data/RAG1_aligned.nexus data/RAG1_aligned.phy
+ 
+    - name: Run Conversion Script Phylip to Fasta
+      run: python Converter_ap_seq_file.py data/RAG1_aligned.phy data/RAG1_aligned.fasta
+      
+    - name: Run Conversion Script Phylip to Nexus
+      run: python Converter_ap_seq_file.py data/RAG1_aligned.phy data/RAG1_aligned.nexus
+
+
+    
+    
 
